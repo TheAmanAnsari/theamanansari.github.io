@@ -17,7 +17,7 @@ redirect_from:
 
 📚 At ***MOON*** Lab, I study diverse sets of algorithms related to multi-agent systems and field robotics. My primary research focuses on developing a coverage path planning method for a tethered UAV-UGV robotic system to enable efficient autonomous mapping and field exploration.
 
-[![YouTube](https://shields.io)](https://youtube.com) I also manage YouTube for  <strong style="color: #51b7df;font-size: 17px;/* text-decoration: underline; */">Robotics Café</strong> [<i class="fa fa-external-link" style="font-size:16px"></i>](https://sites.google.com/view/roboticscafe/home), a 
+I also manage YouTube for  <strong style="color: #51b7df;font-size: 17px;/* text-decoration: underline; */">Robotics Café</strong> [<i class="fa fa-external-link" style="font-size:16px"></i>](https://sites.google.com/view/roboticscafe/home), a weekly virtual meetup for roboticists.
 
 🤖 I am interested in developing novel methods and algorithms that bring us closer to truly intelligent AI systems for solving complex real-world problems. In line with this interest, I enjoy implementing research papers into code and learning new concepts on the fly.
 
