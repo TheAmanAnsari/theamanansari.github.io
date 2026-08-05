@@ -10,7 +10,7 @@
 locale                   : "en-US"
 site_theme               : "default" # Currently available options are "default", "air"
 # title                    : "<img src='/images/aman_logov2.png' width=40' height='40'>"
-title                    : "TheAmanAnsari"
+title                    : "Aman Ansari"
 title_separator          : "-"
 name                     : &name "Aman Ansari"
 description              : &description "personal description"
