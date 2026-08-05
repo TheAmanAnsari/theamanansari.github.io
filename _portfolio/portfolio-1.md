@@ -1,22 +1,26 @@
 ---
-title: "Image Restoration for inverse problems using Deep Image Prior"
-excerpt: "Denoising and Inpainting of corrupted images using only architectural priors. <img src='/images/restoration_img_2.png' width='700'>"
+title: "EcoBoat"
+excerpt: "An autonomous body-board boat for cleaning water bodies. <img src='/images/EcoBoat_in_pool.jpg' width='600' style='margin-top: 15px;'>"
 collection: portfolio
 ---
 
 <!-- This is an item in your portfolio. It can be have images or nice text. If you name the file .md, it will be parsed as markdown. If you name the file .html, it will be parsed as HTML.  -->
 
-### Denoising and Inpainting of corrupted images using only architectural priors.
+## An autonomous body-board boat for cleaning water bodies.
 
--  Implemented [Deep Image Prior ↗](https://arxiv.org/abs/1711.10925) research paper using U-Net, a deep learning architecture, enabling single-image restoration without a training dataset.
+![EcoBoat](/images/EcoBoat_in_pool.jpg){: .align-center width="500px"}
 
-- Demonstrated the model on real and synthetic images, achieving high-quality restoration.
+- Developed the random path planning algorithm’s logic for the robot with added net structure to navigate with the help of distance sensors in Webots simulation.
+<!-- ![Track_1](/images/Track_1_SDC.jpg){: .align-left width="300px"} -->
 
-- Implementation can be found on [GitHub ↗](https://github.com/Amann09/U_Net_Arch_Deep_Image_Prior).
+- Designed the net structure such that it collects the maximum amount of garbage and retain it.
+
+- Design and Implementation for EcoBoat, can be found [here ↗](https://github.com/Amann09/pool_cleaning_with_net_structure).
 
 
-## Task: Denoising
-![Denosing](/images/restoration_img_1.png){: .align-center width="800px"}
+--------
+## Webots Simulation
+<center>
+    <iframe width="600" height="315" src="https://www.youtube.com/embed/NnsBjuA5rr8"></iframe> 
+</center>
 
-## Task: Inpainting
-![Inpainting](/images/restoration_img_2.png){: .align-center width="800px"}
