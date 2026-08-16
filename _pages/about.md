@@ -44,6 +44,7 @@ I am always open to talking about research ideas. Feel free to email me at <stro
 📖 Good read
 ------
 - A visual introduction to [Big O](https://samwho.dev/big-o/) by Sam Rose
+- Visual Servo Control Part I - [A Tutorial](https://inria.hal.science/inria-00350283v1/document) 
 
 <!-- 👨🏻‍🔬 Experience
 ------
