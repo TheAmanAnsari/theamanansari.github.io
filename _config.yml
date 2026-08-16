@@ -25,7 +25,7 @@ author:
   # Biographic information
   avatar           : "profile-pic1.jpg"
   name             : "Aman Ansari"
-  pronouns         : "he/him"  
+  # pronouns         : "he/him"  
   # bio              : "AI & Robotics Researcher"
   bio              : "AI & Robotics Researcher"
   location         : "Bhopal, India"

@@ -17,8 +17,12 @@
   <div class="author__content">
     <h3 class="author__name">{{ author.name }}</h3>
     {% if author.pronouns %}<p class="author__pronouns">{{ author.pronouns }}</p>{% endif %}
-    {% if author.bio %}<p class="author__bio" style="font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', monospace;">{{ author.bio }}</p>{% endif %}
+    {% if author.bio %}<p class="author__bio">{{ author.bio }}</p>{% endif %}
   </div>
+
+  <!-- 
+  You can change font using style="font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', monospace;". Put this in the above p tag class="author__bio"
+  -->
 
   <div class="author__urls-wrapper">
     <button class="btn btn--inverse">Follow</button>
