@@ -10,11 +10,11 @@ redirect_from:
 
 I’m a research associate 👨🏻‍💻 at the <a href="https://moonlab.iiserb.ac.in/" style="color: #51b7df; font-size: 17px; text-decoration-thickness: 1.75px; text-underline-offset: 4px;"><strong>Multi-Robot Autonomy (MOON)</strong></a> lab in **IISER Bhopal**. Prior to this, I completed my bachelors 📚 in computer science and engineering from VIT Bhopal University.
 
-At ***MOON*** Lab, I study diverse sets of algorithms related to multi-agent systems and field robotics. My primary research focuses on developing a coverage path planning method for a tethered UAV-UGV robotic system to enable efficient autonomous mapping and field exploration.
+At **_MOON_** Lab, I study diverse sets of algorithms related to multi-agent systems and field robotics. My primary research focuses on developing a coverage path planning method for a tethered UAV-UGV robotic system to enable efficient autonomous mapping and field exploration.
 
 I also manage YouTube for <a href="https://sites.google.com/view/roboticscafe/home" style="color: #51b7df; font-size: 17px; text-decoration-thickness: 1.75px; text-underline-offset: 4px;"><strong>Robotics Café</strong></a> , a weekly virtual meetup for roboticists.
 
-I am interested in developing novel methods and algorithms that bring us closer to truly intelligent AI systems for solving complex real-world problems. In line with this interest, I enjoy implementing research papers into code and learning new concepts on the fly.
+> I am interested in developing novel methods and algorithms that bring us closer to truly intelligent AI systems for solving complex real-world problems. In line with this interest, I enjoy implementing research papers into code and learning new concepts on the fly.
 
 I am always open to talking about research ideas. Feel free to email me at <strong style="color: #51b7df; font-size: 17px;">amanansari8472@gmail.com</strong>
 
@@ -28,11 +28,9 @@ I am always open to talking about research ideas. Feel free to email me at <stro
   <li>3D Computer Vision</li>
   <li>Decision-Making</li>
   <li>Machine Learning</li>
-  <li>Computational Imaging</li>
+  <li>Off-Road Navigation</li>
   <li>Robotics</li>
 </ul>
-
-> My research interests primarily lie in the areas of computer vision and robotics. In particular, I am highly interested in studying the applications of computer vision and robotics in 3D modeling, computational imaging and autonomous robotic systems.
 
 
 🎤 Presentations / Talks

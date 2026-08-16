@@ -26,7 +26,8 @@ author:
   avatar           : "profile-pic1.jpg"
   name             : "Aman Ansari"
   pronouns         : # example: "she/her"  
-  bio              : "AI & Robotics Researcher"
+  # bio              : "AI & Robotics Researcher"
+  bio              : "<p style='font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', monospace;'>AI & Robotics Researcher</p>"
   location         : "Bhopal, India"
   # employer         : "Red Brick University"
   uri              : # URL
