@@ -31,8 +31,8 @@ I am always open to talking about research ideas. Feel free to email me at <stro
 <ul style="font-size: 17px">
   <li>Perception</li>
   <li>3D Computer Vision</li>
-  <li>Machineup Learning</li>
-  <li>Multimodal Foundational Models</li>
+  <li>Decision-Making</li>
+  <li>Machine Learning</li>
   <li>Computational Imaging</li>
   <li>Robotics</li>
 </ul>
