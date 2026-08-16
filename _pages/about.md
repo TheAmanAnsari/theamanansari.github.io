@@ -12,7 +12,7 @@ I’m a research associate 👨🏻‍💻 at the <a href="https://moonlab.iiser
 
 At ***MOON*** Lab, I study diverse sets of algorithms related to multi-agent systems and field robotics. My primary research focuses on developing a coverage path planning method for a tethered UAV-UGV robotic system to enable efficient autonomous mapping and field exploration.
 
-I also manage YouTube for <a href="https://sites.google.com/view/roboticscafe/home" style="color: #51b7df; font-size: 17px; text-decoration-thickness: 1.75px; text-underline-offset: 4px;"><strong>Robotics Café</strong></a>, a weekly virtual meetup for roboticists.
+I also manage YouTube for <a href="https://sites.google.com/view/roboticscafe/home" style="color: #51b7df; font-size: 17px; text-decoration-thickness: 1.75px; text-underline-offset: 4px;"><strong>Robotics Café</strong></a> , a weekly virtual meetup for roboticists.
 
 I am interested in developing novel methods and algorithms that bring us closer to truly intelligent AI systems for solving complex real-world problems. In line with this interest, I enjoy implementing research papers into code and learning new concepts on the fly.
 
