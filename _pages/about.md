@@ -8,9 +8,9 @@ redirect_from:
 ---
 
 
-I’m a research associate 👨🏻‍💻 at the <a href="https://moonlab.iiserb.ac.in/" style=" text-underline-offset: 5px;"><strong style="color: #51b7df;font-size: 17px;">Multi-Robot Autonomy (MOON) Lab </strong> </a> in **IISER Bhopal**. Prior to this, I completed my bachelors 📚 in computer science and engineering from VIT Bhopal University.
+I’m a research associate 👨🏻‍💻 at the <a href="https://moonlab.iiserb.ac.in/" style="color: #51b7df; font-size: 17px; text-underline-offset: 3px;">Multi-Robot Autonomy (MOON)</a> lab in **IISER Bhopal**. Prior to this, I completed my bachelors 📚 in computer science and engineering from VIT Bhopal University.
 
-At ***MOON*** Lab, I study diverse sets of algorithms related to multi-agent systems and field robotics 🤖. My primary research focuses on developing a coverage path planning method for a tethered UAV-UGV robotic system to enable efficient autonomous mapping and field exploration.
+At ***MOON*** Lab, I study diverse sets of algorithms related to multi-agent systems and field robotics. My primary research focuses on developing a coverage path planning method for a tethered UAV-UGV robotic system to enable efficient autonomous mapping and field exploration.
 
 I also manage YouTube for  <strong style="color: #51b7df;font-size: 17px;/* text-decoration: underline; */">Robotics Café</strong> [<i class="fa fa-external-link" style="font-size:16px"></i>](https://sites.google.com/view/roboticscafe/home), a weekly virtual meetup for roboticists.
 
@@ -18,6 +18,7 @@ I am interested in developing novel methods and algorithms that bring us closer 
 
 I am always open to talking about research ideas. Feel free to email me at <strong style="color: #51b7df; font-size: 17px;">amanansari8472@gmail.com</strong>
 
+<!-- 🤖 -->
 
 🔬 Research Interests
 ------
