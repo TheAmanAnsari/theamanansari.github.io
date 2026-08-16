@@ -1,6 +1,6 @@
 ---
 permalink: /
-title: "About"
+title: "TheAmanAnsari"
 author_profile: true
 redirect_from: 
   - /about/
