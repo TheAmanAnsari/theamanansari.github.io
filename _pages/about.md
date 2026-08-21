@@ -14,7 +14,7 @@ At **_MOON_** Lab, I study diverse sets of algorithms related to multi-agent sys
 
 I also manage YouTube for <a href="https://sites.google.com/view/roboticscafe/home" target="_blank" style="color: #51b7df; font-size: 17px; text-decoration-thickness: 1.75px; text-underline-offset: 4px;"><strong>Robotics Café</strong></a> , a weekly virtual meetup for roboticists.
 
-> I am interested in developing novel methods and algorithms that bring us closer to truly intelligent AI systems for solving complex real-world problems. In line with this interest, I enjoy implementing research papers into code and learning new concepts on the fly.
+> I am interested in developing novel methods and algorithms that advance robotic systems toward general-purpose intelligence, capable of solving complex real-world problems. In line with this interest, I enjoy implementing research papers into code and learning new concepts on the fly.
 
 I am always open to talking about research ideas. Feel free to email me at <strong style="color: #51b7df; font-size: 17px;">amanansari8472@gmail.com</strong>
 
