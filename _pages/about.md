@@ -10,7 +10,7 @@ redirect_from:
 
 I’m a research associate 👨🏻‍💻 at the <a href="https://moonlab.iiserb.ac.in/" target="_blank" style="color: #51b7df; font-size: 17px; text-decoration-thickness: 1.75px; text-underline-offset: 4px;"><strong>Multi-Robot Autonomy (MOON)</strong></a> lab in **IISER Bhopal**. Prior to this, I completed my bachelors 📚 in computer science and engineering from VIT Bhopal University.
 
-At **_MOON_** Lab, I study diverse sets of algorithms related to multi-agent systems and field robotics. My primary research focuses on developing a coverage path planning method for a tethered UAV-UGV robotic system to enable efficient autonomous mapping and field exploration.
+At **_MOON_** Lab, I study diverse sets of algorithms related to multi-agent systems and field robotics. My primary research focuses on developing a coverage path planning method for a tethered UAV-UGV robotic system to enable efficient autonomous visual mapping and field exploration.
 
 I also manage  <i class="fa-brands fa-youtube" style="color: red; font-size: 20px;"></i> YouTube for <a href="https://sites.google.com/view/roboticscafe/home" target="_blank" style="color: #51b7df; font-size: 17px; text-decoration-thickness: 1.75px; text-underline-offset: 4px;"><strong>Robotics Café</strong></a> , a weekly virtual meetup for roboticists.
 
