@@ -29,7 +29,7 @@ I am always open to talking about research ideas. Feel free to email me at <stro
   <li>Decision-Making</li>
   <li>Machine Learning</li>
   <li>Off-Road Navigation</li>
-  <li>Robotics</li>
+  <li>Field Robotics</li>
 </ul>
 
 
