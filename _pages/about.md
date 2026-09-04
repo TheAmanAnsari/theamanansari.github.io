@@ -14,9 +14,7 @@ At **_MOON_** Lab, I study diverse sets of algorithms related to multi-agent sys
 
 I also manage  <i class="fa-brands fa-youtube" style="color: red; font-size: 20px;"></i> YouTube for <a href="https://sites.google.com/view/roboticscafe/home" target="_blank" style="color: #51b7df; font-size: 17px; text-decoration-thickness: 1.75px; text-underline-offset: 4px;"><strong>Robotics Café</strong></a> , a weekly virtual meetup for roboticists.
 
-<!-- > I am interested in developing <code>novel methods</code> and <code>algorithms</code> that advance robotic systems toward <code>general-purpose intelligence</code>, capable of solving complex real-world problems. -->
-
-<code>I am interested in developing novel methods and algorithms that advance robotic systems toward general-purpose intelligence, capable of solving complex real-world problems.</code>
+> I am interested in developing novel methods and algorithms that advance robotic systems toward general-purpose intelligence, capable of solving complex real-world problems.
 
 In line with this interest, I enjoy implementing research papers into code and learning new concepts on the fly.
 
