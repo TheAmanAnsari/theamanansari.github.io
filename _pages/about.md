@@ -44,7 +44,7 @@ I am always open to talking about research ideas. Feel free to email me at <stro
 ------
 - A visual introduction to <a href="https://samwho.dev/big-o/" target="_blank" style="color: #51b7df; font-size: 17px; text-decoration-thickness: 1.75px; text-underline-offset: 4px;"><strong>Big O</strong></a> by Sam Rose
 - Visual Servo Control Part I - <a href="https://inria.hal.science/inria-00350283v1/document" target="_blank" style="color: #51b7df; font-size: 17px; text-decoration-thickness: 1.75px; text-underline-offset: 4px;"><strong>A Tutorial</strong></a>
-
+- Visual Inertial Odometry - <a href="https://www.thinkautonomous.ai/blog/visual-inertial-odometry/" target="_blank" style="color: #51b7df; font-size: 17px; text-decoration-thickness: 1.75px; text-underline-offset: 4px;"><strong>Think Autonomous</strong></a>
 
 <!-- 👨🏻‍🔬 Experience
 ------
