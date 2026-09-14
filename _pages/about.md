@@ -8,7 +8,7 @@ redirect_from:
 ---
 
 
-I’m a research associate 👨🏻‍💻 at the <a href="https://moonlab.iiserb.ac.in/" target="_blank" style="color: #51b7df; font-size: 17px; text-decoration-thickness: 1.75px; text-underline-offset: 4px;"><strong>Multi-Robot Autonomy (MOON)</strong></a> lab in **IISER Bhopal**. Prior to this, I completed my bachelors 📚 in computer science and engineering from VIT Bhopal University.
+I’m a research associate 👨🏻‍💻 at the <a href="https://moonlab.iiserb.ac.in/" target="_blank" style="color: #51b7df; font-size: 17px; text-decoration-thickness: 1.75px; text-underline-offset: 4px;"><strong>Multi-Robot Autonomy (MOON)</strong></a> lab, working under <a href="https://scholar.google.com/citations?user=qqwyAwoAAAAJ&hl" target="_blank" style="color: #51b7df; font-size: 17px; text-decoration-thickness: 1.75px; text-underline-offset: 4px;"><strong>Dr. PB Sujit</strong></a> in **IISER Bhopal**. Prior to this, I completed my bachelors 📚 in computer science and engineering from VIT Bhopal University.
 
 At **_MOON_** Lab, I study diverse sets of algorithms related to multi-agent systems and field robotics. My primary research focuses on developing a coverage path planning method for a tethered UAV-UGV robotic system to enable efficient autonomous visual mapping and field exploration.
 
