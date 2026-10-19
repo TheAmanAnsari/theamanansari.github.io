@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coverage Path Planner</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            margin: 0;
+            padding: 0;
+        }
+        .grid-cell {
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+        }
+        .grid-cell:hover:not(.start-cell):not(.animating) {
+            transform: scale(0.92);
+            cursor: pointer;
+        }
+        .obstacle {
+            background-color: #334155; /* Slate 700 */
+            border: 1px solid #1e293b;
+        }
+        .empty {
+            background-color: #e2e8f0; /* Slate 200 */
+            border: 1px solid #cbd5e1;
+        }
+        .start-cell {
+            background-color: #22c55e !important; /* Green 500 */
+            border: 1px solid #16a34a !important;
+            cursor: not-allowed;
+        }
+        .transit {
+            background-color: #fef08a !important; /* Yellow 200 - highlights revisits */
+            border: 1px solid #fde047 !important;
+        }
+        .visit-badge {
+            background-color: #ef4444; /* Red 500 */
+            color: white;
+            font-size: 0.75rem;
+            font-weight: bold;
+            border-radius: 9999px;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.2s ease-out;
+            z-index: 20;
+        }
+        .visit-badge.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        @keyframes pulse {
+            0% { r: 0.2; opacity: 1; }
+            50% { r: 0.35; opacity: 0.6; }
+            100% { r: 0.2; opacity: 1; }
+        }
+        .robot-head {
+            animation: pulse 1.5s infinite;
+        }
+        #path-overlay {
+            pointer-events: none;
+        }
+        .path-line {
+            stroke: #3b82f6; /* Blue 500 */
+            stroke-width: 0.15;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+        .jump-line {
+            stroke: #ec4899; /* Pink 500 - indicates transit path */
+            stroke-dasharray: 0.2, 0.2;
+        }
+        .stat-card {
+            background-color: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        .stat-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: #64748b;
+            margin-bottom: 0.25rem;
+        }
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #0f172a;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4">
+
+    <div class="max-w-6xl w-full bg-white rounded-2xl shadow-xl overflow-hidden p-6 md:p-8 border border-slate-200">
+        
+        <header class="mb-6 text-center">
+            <h1 class="text-3xl font-extrabold text-slate-800 mb-2">Coverage Path Planner</h1>
+            <p class="text-slate-500 text-sm max-w-2xl mx-auto">
+                Configure the grid and draw obstacles. The planner uses a greedy approach. 
+                When it hits a dead end, it calculates the <strong>shortest path (BFS)</strong> through already-visited cells to jump to the nearest unvisited area, instead of blindly retracing its steps.
+            </p>
+        </header>
+
+        <div class="flex flex-wrap items-end justify-center gap-4 mb-6 bg-slate-50 p-4 rounded-xl border border-slate-200">
+            <div>
+                <label for="input-rows" class="block text-xs font-semibold text-slate-600 uppercase mb-1">Rows (5-20)</label>
+                <input type="number" id="input-rows" value="10" min="5" max="20" class="w-20 px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-center">
+            </div>
+            <div>
+                <label for="input-cols" class="block text-xs font-semibold text-slate-600 uppercase mb-1">Cols (5-20)</label>
+                <input type="number" id="input-cols" value="10" min="5" max="20" class="w-20 px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-center">
+            </div>
+            <button id="btn-update-grid" class="px-5 py-2 bg-slate-800 hover:bg-slate-900 text-white font-semibold rounded-md shadow-sm transition-colors">
+                Update Grid
+            </button>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-8 items-start w-full">
+            
+            <!-- Left Side: Grid Area -->
+            <div class="flex-grow w-full lg:w-2/3">
+                <div class="relative w-full mx-auto bg-slate-100 border-2 border-slate-300 rounded-lg overflow-hidden shadow-inner cursor-pointer" style="aspect-ratio: 1 / 1;" id="grid-wrapper">
+                    <div id="grid-container" class="absolute inset-0 grid gap-0"></div>
+                    <svg id="path-overlay" class="absolute inset-0 w-full h-full z-10" preserveAspectRatio="none"></svg>
+                </div>
+            </div>
+
+            <!-- Right Side: Stats Panel Area -->
+            <div class="w-full lg:w-1/3 bg-slate-50 p-6 rounded-xl border border-slate-200 flex flex-col gap-4 shadow-sm h-full">
+                <h2 class="text-lg font-bold text-slate-700 border-b border-slate-300 pb-2 mb-2">Live Statistics</h2>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="stat-card">
+                        <span class="stat-label">Empty Cells</span>
+                        <span id="stat-empty" class="stat-value">0</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">Coverage</span>
+                        <span id="stat-coverage" class="stat-value text-blue-600">0%</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">Path Length</span>
+                        <span id="stat-path" class="stat-value">0</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">Revisits</span>
+                        <span id="stat-revisits" class="stat-value text-red-500">0</span>
+                    </div>
+                </div>
+
+                <div class="mt-4 text-xs text-slate-500">
+                    <p class="mb-1"><strong>Coverage:</strong> % of total available free space visited.</p>
+                    <p class="mb-1"><strong>Path Length:</strong> Number of steps taken by the robot.</p>
+                    <p><strong>Revisits:</strong> Total times a previously visited cell was entered again.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <button id="btn-calculate" class="w-full sm:w-48 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg shadow-md transition-colors focus:ring-4 focus:ring-blue-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                Calculate Path
+            </button>
+            <button id="btn-play-pause" class="w-full sm:w-48 px-6 py-3 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-lg shadow-sm transition-colors focus:ring-4 focus:ring-slate-200 disabled:opacity-50 disabled:cursor-not-allowed hidden">
+                Play / Pause
+            </button>
+            <button id="btn-reset" class="w-full sm:w-48 px-6 py-3 bg-red-100 hover:bg-red-200 text-red-700 font-bold rounded-lg shadow-sm transition-colors focus:ring-4 focus:ring-red-100 disabled:opacity-50 disabled:cursor-not-allowed hidden">
+                Reset Path
+            </button>
+        </div>
+
+        <div id="status-message" class="mt-6 text-center text-sm font-semibold text-slate-600 h-6">
+            Grid initialized. Click cells to draw obstacles, then click Calculate.
+        </div>
+    </div>
+
+    <script>
+        let ROWS = 10;
+        let COLS = 10;
+        let grid = []; // 0: empty, 1: obstacle
+        let calculatedPath = []; // Array of {r, c, isJump}
+        let cellVisits = []; 
+        
+        let totalFreeCellsCount = 0;
+        let uniqueVisitedCells = 0;
+        let totalRevisits = 0;
+        
+        let animInterval = null;
+        let currentStep = 0;
+        let isPaused = false;
+        let appState = 'EDITING'; 
+        let robotCircle = null;
+
+        const gridContainer = document.getElementById('grid-container');
+        const pathOverlay = document.getElementById('path-overlay');
+        const gridWrapper = document.getElementById('grid-wrapper');
+        const btnUpdateGrid = document.getElementById('btn-update-grid');
+        const btnCalculate = document.getElementById('btn-calculate');
+        const btnPlayPause = document.getElementById('btn-play-pause');
+        const btnReset = document.getElementById('btn-reset');
+        const statusMessage = document.getElementById('status-message');
+
+        function setStatus(msg, isError = false) {
+            statusMessage.innerText = msg;
+            statusMessage.style.color = isError ? '#dc2626' : '#475569';
+        }
+
+        function initializeGrid() {
+            ROWS = Math.max(5, Math.min(20, parseInt(document.getElementById('input-rows').value) || 10));
+            COLS = Math.max(5, Math.min(20, parseInt(document.getElementById('input-cols').value) || 10));
+            
+            document.getElementById('input-rows').value = ROWS;
+            document.getElementById('input-cols').value = COLS;
+
+            gridWrapper.style.aspectRatio = `${COLS} / ${ROWS}`;
+            pathOverlay.setAttribute('viewBox', `0 0 ${COLS} ${ROWS}`);
+
+            gridContainer.style.gridTemplateColumns = `repeat(${COLS}, 1fr)`;
+            gridContainer.style.gridTemplateRows = `repeat(${ROWS}, 1fr)`;
+            gridContainer.innerHTML = '';
+            pathOverlay.innerHTML = '';
+            
+            grid = [];
+            for (let r = 0; r < ROWS; r++) {
+                let row = [];
+                for (let c = 0; c < COLS; c++) {
+                    row.push(0); 
+                    
+                    const cell = document.createElement('div');
+                    cell.className = 'grid-cell empty';
+                    cell.id = `cell-${r}-${c}`;
+                    
+                    const badge = document.createElement('div');
+                    badge.className = 'visit-badge';
+                    badge.id = `badge-${r}-${c}`;
+                    cell.appendChild(badge);
+
+                    if (r === 0 && c === 0) {
+                        cell.classList.remove('empty');
+                        cell.classList.add('start-cell');
+                    } else {
+                        cell.addEventListener('mousedown', (e) => handleCellClick(r, c, cell, e));
+                        cell.addEventListener('mouseenter', (e) => {
+                            if (e.buttons === 1) handleCellClick(r, c, cell, e);
+                        });
+                    }
+                    gridContainer.appendChild(cell);
+                }
+                grid.push(row);
+            }
+            resetPathState();
+            setStatus("Grid initialized. Draw obstacles and click Calculate.");
+        }
+
+        function handleCellClick(r, c, cellElement, e) {
+            if (appState !== 'EDITING') resetPathState();
+            grid[r][c] = grid[r][c] === 0 ? 1 : 0;
+            if (grid[r][c] === 1) {
+                cellElement.classList.replace('empty', 'obstacle');
+            } else {
+                cellElement.classList.replace('obstacle', 'empty');
+            }
+        }
+
+        function resetPathState() {
+            if (animInterval) clearInterval(animInterval);
+            pathOverlay.innerHTML = '';
+            robotCircle = null;
+            calculatedPath = [];
+            currentStep = 0;
+            isPaused = false;
+            appState = 'EDITING';
+            
+            uniqueVisitedCells = 0;
+            totalRevisits = 0;
+            updateStatsDisplay(0);
+            
+            document.querySelectorAll('.visit-badge').forEach(b => {
+                b.classList.remove('show');
+                b.innerText = '';
+            });
+            document.querySelectorAll('.grid-cell').forEach(c => {
+                c.classList.remove('animating', 'transit');
+            });
+
+            btnCalculate.disabled = false;
+            btnPlayPause.classList.add('hidden');
+            btnReset.classList.add('hidden');
+        }
+
+        function findShortestPathToUnvisited(startR, startC, visitedSet) {
+            // BFS to find the nearest unvisited free cell
+            let queue = [{ r: startR, c: startC, path: [] }];
+            let bfsVisited = new Set([`${startR},${startC}`]);
+            const dirs = [[0, 1], [1, 0], [0, -1], [-1, 0]]; // R, D, L, U
+
+            while (queue.length > 0) {
+                let curr = queue.shift();
+
+                // If this cell is unvisited and free (and not the start cell), we found our target!
+                if (!visitedSet.has(`${curr.r},${curr.c}`) && grid[curr.r][curr.c] === 0) {
+                    return curr.path;
+                }
+
+                for (let [dr, dc] of dirs) {
+                    let nr = curr.r + dr, nc = curr.c + dc;
+                    if (nr >= 0 && nr < ROWS && nc >= 0 && nc < COLS && grid[nr][nc] === 0) {
+                        let key = `${nr},${nc}`;
+                        if (!bfsVisited.has(key)) {
+                            bfsVisited.add(key);
+                            queue.push({ 
+                                r: nr, 
+                                c: nc, 
+                                path: [...curr.path, { r: nr, c: nc, isJump: true }] 
+                            });
+                        }
+                    }
+                }
+            }
+            return null; // No unvisited cells reachable
+        }
+
+        function calculatePath() {
+            if (grid[0][0] === 1) {
+                setStatus("Start cell (0,0) is blocked!", true);
+                return;
+            }
+
+            setStatus("Calculating smart coverage path...");
+            btnCalculate.disabled = true;
+
+            setTimeout(() => {
+                let totalFree = 0;
+                for (let r = 0; r < ROWS; r++) {
+                    for (let c = 0; c < COLS; c++) {
+                        if (grid[r][c] === 0) totalFree++;
+                    }
+                }
+                
+                totalFreeCellsCount = totalFree;
+                document.getElementById('stat-empty').innerText = totalFreeCellsCount;
+                document.getElementById('stat-coverage').innerText = '0%';
+
+                let visited = new Set(['0,0']);
+                let path = [{ r: 0, c: 0, isJump: false }];
+                let currR = 0;
+                let currC = 0;
+
+                const dirs = [[0, 1], [1, 0], [0, -1], [-1, 0]]; // R, D, L, U (Greedy preference)
+
+                while (visited.size < totalFree) {
+                    let moved = false;
+                    
+                    // 1. Try to move to an adjacent unvisited cell (Greedy step)
+                    for (let [dr, dc] of dirs) {
+                        let nr = currR + dr, nc = currC + dc;
+                        if (nr >= 0 && nr < ROWS && nc >= 0 && nc < COLS) {
+                            if (grid[nr][nc] === 0 && !visited.has(`${nr},${nc}`)) {
+                                currR = nr;
+                                currC = nc;
+                                visited.add(`${currR},${currC}`);
+                                path.push({ r: currR, c: currC, isJump: false });
+                                moved = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    // 2. Dead end reached. Find shortest path to nearest unvisited cell.
+                    if (!moved) {
+                        let jumpPath = findShortestPathToUnvisited(currR, currC, visited);
+                        
+                        if (jumpPath && jumpPath.length > 0) {
+                            for (let step of jumpPath) {
+                                path.push(step);
+                                // The final step of the jump is an unvisited cell, mark it!
+                                if (!visited.has(`${step.r},${step.c}`)) {
+                                    visited.add(`${step.r},${step.c}`);
+                                }
+                            }
+                            // Update current position
+                            let lastStep = jumpPath[jumpPath.length - 1];
+                            currR = lastStep.r;
+                            currC = lastStep.c;
+                        } else {
+                            // Graph is disconnected, unvisited cells exist but can't be reached
+                            setStatus("Warning: Unreachable cells detected. Path covers reachable areas.", true);
+                            break;
+                        }
+                    }
+                }
+
+                if (visited.size === totalFree) {
+                    setStatus(`Path found! Length: ${path.length} steps. Ready to play.`);
+                }
+
+                calculatedPath = path;
+                appState = 'CALCULATED';
+                
+                btnCalculate.disabled = false;
+                btnPlayPause.classList.remove('hidden');
+                btnPlayPause.innerText = 'Play Animation';
+                btnPlayPause.className = "w-full sm:w-48 px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-bold rounded-lg shadow-sm transition-colors focus:ring-4 focus:ring-green-300";
+                btnReset.classList.remove('hidden');
+                
+            }, 50);
+        }
+
+        function togglePlayPause() {
+            if (appState === 'CALCULATED') {
+                startAnimation();
+            } else if (appState === 'ANIMATING') {
+                isPaused = !isPaused;
+                btnPlayPause.innerText = isPaused ? 'Resume' : 'Pause';
+                setStatus(isPaused ? "Paused." : "Animating...");
+            } else if (appState === 'FINISHED') {
+                pathOverlay.innerHTML = '';
+                robotCircle = null;
+                document.querySelectorAll('.visit-badge').forEach(b => b.classList.remove('show'));
+                document.querySelectorAll('.grid-cell').forEach(c => c.classList.remove('transit'));
+                startAnimation();
+            }
+        }
+
+        function startAnimation() {
+            appState = 'ANIMATING';
+            isPaused = false;
+            currentStep = 0;
+            
+            uniqueVisitedCells = 0;
+            totalRevisits = 0;
+            updateStatsDisplay(0);
+
+            btnPlayPause.innerText = 'Pause';
+            btnPlayPause.className = "w-full sm:w-48 px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-lg shadow-sm transition-colors focus:ring-4 focus:ring-amber-300";
+            btnCalculate.disabled = true;
+            setStatus("Animating path...");
+            
+            cellVisits = Array(ROWS).fill().map(() => Array(COLS).fill(0));
+            
+            const startP = calculatedPath[0];
+            incrementVisitCounter(startP.r, startP.c);
+            updateRobotHead(startP);
+            
+            document.querySelectorAll('.grid-cell').forEach(c => c.classList.add('animating'));
+
+            if (animInterval) clearInterval(animInterval);
+            animInterval = setInterval(animateStep, 150);
+        }
+
+        function animateStep() {
+            if (isPaused) return;
+
+            if (currentStep >= calculatedPath.length - 1) {
+                clearInterval(animInterval);
+                appState = 'FINISHED';
+                btnPlayPause.innerText = 'Replay';
+                btnPlayPause.className = "w-full sm:w-48 px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-lg shadow-sm transition-colors focus:ring-4 focus:ring-blue-300";
+                btnCalculate.disabled = false;
+                setStatus(`Coverage complete! Stopped at final cell (${calculatedPath[currentStep].r}, ${calculatedPath[currentStep].c}).`);
+                document.querySelectorAll('.grid-cell').forEach(c => c.classList.remove('animating'));
+                return;
+            }
+
+            const p1 = calculatedPath[currentStep];
+            const p2 = calculatedPath[currentStep + 1];
+            
+            drawLine(p1, p2, p2.isJump);
+            updateRobotHead(p2);
+            incrementVisitCounter(p2.r, p2.c);
+            
+            currentStep++;
+            updateStatsDisplay(currentStep);
+        }
+
+        function drawLine(p1, p2, isJump) {
+            const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            line.setAttribute("x1", p1.c + 0.5);
+            line.setAttribute("y1", p1.r + 0.5);
+            line.setAttribute("x2", p2.c + 0.5);
+            line.setAttribute("y2", p2.r + 0.5);
+            line.classList.add('path-line');
+            if (isJump) {
+                // Style differently if this is a BFS jump over visited territory
+                line.style.stroke = '#f59e0b'; // Amber 500
+            }
+            pathOverlay.appendChild(line);
+        }
+
+        function updateRobotHead(p) {
+            if (!robotCircle) {
+                robotCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                robotCircle.setAttribute("fill", "#3b82f6"); 
+                robotCircle.classList.add('robot-head');
+                pathOverlay.appendChild(robotCircle);
+            }
+            robotCircle.setAttribute("cx", p.c + 0.5);
+            robotCircle.setAttribute("cy", p.r + 0.5);
+            pathOverlay.appendChild(robotCircle);
+        }
+
+        function incrementVisitCounter(r, c) {
+            cellVisits[r][c]++;
+            
+            if (cellVisits[r][c] === 1) {
+                uniqueVisitedCells++;
+            } else if (cellVisits[r][c] > 1) {
+                totalRevisits++;
+            }
+
+            if (cellVisits[r][c] > 1) {
+                const cell = document.getElementById(`cell-${r}-${c}`);
+                const badge = document.getElementById(`badge-${r}-${c}`);
+                
+                if (cell && !(r === 0 && c === 0)) {
+                    cell.classList.add('transit');
+                }
+                if (badge) {
+                    badge.innerText = cellVisits[r][c];
+                    badge.classList.add('show');
+                }
+            }
+        }
+
+        function updateStatsDisplay(steps) {
+            document.getElementById('stat-path').innerText = steps;
+            document.getElementById('stat-revisits').innerText = totalRevisits;
+            
+            let coveragePercentage = totalFreeCellsCount > 0 ? ((uniqueVisitedCells / totalFreeCellsCount) * 100).toFixed(1) : 0;
+            document.getElementById('stat-coverage').innerText = `${coveragePercentage}%`;
+        }
+
+        // Setup Event Listeners
+        btnUpdateGrid.addEventListener('click', initializeGrid);
+        btnCalculate.addEventListener('click', calculatePath);
+        btnPlayPause.addEventListener('click', togglePlayPause);
+        btnReset.addEventListener('click', resetPathState);
+        gridWrapper.addEventListener('dragstart', (e) => e.preventDefault());
+
+        window.onload = initializeGrid;
+    </script>
+</body>
+</html>

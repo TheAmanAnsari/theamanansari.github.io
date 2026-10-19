@@ -34,6 +34,9 @@ I am always open to talking about research ideas. Feel free to email me at <stro
   <li>Field Robotics</li>
 </ul>
 
+🎤 Presentations / Talks
+------
+-  **EECS Research Symposium** - <a href="https://docs.google.com/presentation/d/184N_BPyElm7EtMWhPv7euI0W_D04XZdy/edit?usp=sharing&ouid=109816370411014152738&rtpof=true&sd=true" target="_blank" style="color: #51b7df; font-size: 17px; text-decoration-thickness: 1.75px; text-underline-offset: 4px;"><strong>EcoBoat: an autonomous body-board boat</strong></a>
 
 🎤 Presentations / Talks
 ------
